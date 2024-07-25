@@ -46,6 +46,11 @@ class SubmittedFileField extends SubmittedFormField
         if ($link) {
             $title = _t(__CLASS__ . '.DOWNLOADFILE', 'Download File');
             $file = $this->getUploadedFileFromDraft();
+
+            if (!$file) {
+                return DBField::create_field('HTMLText', '<p>File not found</p>');
+            }
+
             if (!$file->canView()) {
                 if (Security::getCurrentUser()) {
                     // Logged in CMS user without permissions to view file in the CMS
